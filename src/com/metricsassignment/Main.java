@@ -4,6 +4,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.metricsassignment.metrics.*;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -11,10 +12,20 @@ import java.util.List;
 
 public class Main {
 
+    private static List<File> files = new ArrayList<>();
+
     public static void main(String[] args) {
 
-        String path = "CS409TestSystem2020/foxes-and-rabbits-graph/Animal.java";
-        CompilationUnit cu = parse(path);
+        File file = new File("CS409TestSystem2020");
+
+        List<File> files = doListing(file);
+
+        for(File f : files) {
+            if(f.getName().endsWith(".java")){
+                System.out.println(f.getPath());
+                CompilationUnit cu = parse(f);
+            }
+        }
 
         // WMC, RFC, CBO, LCOM
         List<Metric> metrics = new ArrayList<>();
@@ -27,10 +38,26 @@ public class Main {
         mr.aggregateData(metrics);
     }
 
-    public static CompilationUnit parse(String filePath) {
+    public static List<File> doListing(File dirName) {
+
+        File[] fileList = dirName.listFiles();
+
+        for (File file : fileList) {
+            if (file.isFile()) {
+                files.add(file);
+            } else if (file.isDirectory()) {
+                files.add(file);
+                doListing(file);
+            }
+        }
+
+        return files;
+    }
+
+    public static CompilationUnit parse(File file) {
 
         try {
-            return StaticJavaParser.parse(new FileInputStream(filePath));
+            return StaticJavaParser.parse(new FileInputStream(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
