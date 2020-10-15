@@ -23,19 +23,19 @@ public class Main {
         for(File f : files) {
             if(f.getName().endsWith(".java")){
                 System.out.println(f.getPath());
-                CompilationUnit cu = parse(f);
+                CompilationUnit compilationUnit = parse(f);
+
+                List<Metric> metrics = new ArrayList<>();
+                metrics.add(new WMCMetric());
+//                metrics.add(new RFCMetric());
+//                metrics.add(new CBOMetric());
+//                metrics.add(new LCOMMetric());
+
+                MetricReport mr = new MetricReport(compilationUnit);
+                mr.aggregateData(metrics);
             }
         }
 
-        // WMC, RFC, CBO, LCOM
-        List<Metric> metrics = new ArrayList<>();
-        metrics.add(new WMCMetric());
-        metrics.add(new RFCMetric());
-        metrics.add(new CBOMetric());
-        metrics.add(new LCOMMetric());
-
-        MetricReport mr = new MetricReport();
-        mr.aggregateData(metrics);
     }
 
     public static List<File> doListing(File dirName) {
