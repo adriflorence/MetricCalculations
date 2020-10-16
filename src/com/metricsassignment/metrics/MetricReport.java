@@ -1,21 +1,74 @@
 package com.metricsassignment.metrics;
 
-import com.github.javaparser.ast.CompilationUnit;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
 
 public class MetricReport {
 
-    private CompilationUnit compilationUnit;
+	private List<File> files;
+	private List<Metric> metrics;
+	private Map<CompilationUnit, List<Double>> report;
 
-    public MetricReport(CompilationUnit compilationUnit) {
-        this.compilationUnit = compilationUnit;
-    }
+	public MetricReport(File file, List<Metric> metrics) {
+		report = new HashMap<CompilationUnit, List<Double>>();
+		files =  new ArrayList<File>();
+		doListing(file);
+		this.metrics = metrics;
+	}
 
-    public void aggregateData(List<Metric> metrics){
+	public void print() {
+		calculate();
+		
+		for(Map.Entry<CompilationUnit, List<Double>> entry : report.entrySet()) {
+			String className = entry.getKey().getType(0).getNameAsString();
+			System.out.printf("%-25s", className);
+			for(Double d : entry.getValue()) {
+				System.out.printf("\t\t%5.2f", d.doubleValue());
+			}
+			System.out.print("\n");
+		}
+	}
 
-        for (Metric m : metrics) {
-            System.out.println(m.calculate(compilationUnit));
-        }
+	private void calculate() {
+		for(File f : files) {
+			if(f.getName().endsWith(".java")){
+				FileInputStream stream;
+				try {
+					stream = new FileInputStream(f);
+				} catch (FileNotFoundException e) {
+					System.out.println(e.getMessage());
+					continue;
+				}
+				CompilationUnit compilationUnit = StaticJavaParser.parse(stream);
+				List<Double> l = new ArrayList<Double>();
+				for (Metric m : metrics) {
+					l.add(m.calculate(compilationUnit));
+				}
+				report.put(compilationUnit, l);
+			}
+		}
+	}
 
-    }
+
+	private void doListing(File dirName) {
+
+		File[] fileList = dirName.listFiles();
+
+		for (File file : fileList) {
+			if (file.isFile() && file.getName().endsWith(".java")) {
+				files.add(file);
+			} else if (file.isDirectory()) {
+				doListing(file);
+			}
+		}
+	}
 }
