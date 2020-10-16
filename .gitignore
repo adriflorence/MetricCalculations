@@ -2,3 +2,7 @@
 .idea/
 Metrics.iml
 out/
+/bin/
+/.classpath
+/.project
+/Test/

@@ -1,6 +1,7 @@
 package com.metricsassignment.metrics;
 
 import com.github.javaparser.ast.CompilationUnit;
+
 import visitors.MethodCountVisitor;
 
 // Weighted methods for Class - Number of methods in a class
