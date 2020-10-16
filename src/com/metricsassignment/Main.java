@@ -1,5 +1,9 @@
 package com.metricsassignment;
 
+import com.metricsassignment.metrics.Metric;
+import com.metricsassignment.metrics.RFCMetric;
+import com.metricsassignment.metrics.WMCMetric;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
