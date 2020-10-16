@@ -14,6 +14,7 @@ public class MetricReport {
     public void aggregateData(List<Metric> metrics){
 
         for (Metric m : metrics) {
+            System.out.print(m.getName() + ": ");
             System.out.println(m.calculate(compilationUnit));
         }
 

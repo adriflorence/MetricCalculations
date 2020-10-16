@@ -17,7 +17,6 @@ public class Main {
     public static void main(String[] args) {
 
         File file = new File("CS409TestSystem2020");
-
         List<File> files = doListing(file);
 
         for(File f : files) {
@@ -27,9 +26,9 @@ public class Main {
 
                 List<Metric> metrics = new ArrayList<>();
                 metrics.add(new WMCMetric());
-//                metrics.add(new RFCMetric());
-//                metrics.add(new CBOMetric());
-//                metrics.add(new LCOMMetric());
+                metrics.add(new RFCMetric());
+                metrics.add(new CBOMetric());
+                metrics.add(new LCOMMetric());
 
                 MetricReport mr = new MetricReport(compilationUnit);
                 mr.aggregateData(metrics);

@@ -6,4 +6,5 @@ public interface Metric {
 
     double calculate(CompilationUnit compilationUnit);
 
+    String getName();
 }
