@@ -13,7 +13,8 @@ public class MethodAndRemoteMethodCountVisitor extends GenericVisitorAdapter<Int
 
     @Override
     public Integer visit(ClassOrInterfaceDeclaration n, Void arg) {
-        return super.visit(n, arg);
+        // returns number of methods and methodCallExprs within those methods
+        return n.getMethods().size() + super.visit(n, arg);
     }
 
     @Override
