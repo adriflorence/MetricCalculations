@@ -1,4 +1,4 @@
-package com.metricsassignment.metrics;
+package com.metricsassignment;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.metricsassignment.metrics.Metric;
 
 public class MetricReport {
 

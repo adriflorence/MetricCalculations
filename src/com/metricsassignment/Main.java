@@ -1,4 +1,4 @@
-package com.metricsassignment.metrics;
+package com.metricsassignment;
 
 import java.io.File;
 import java.util.ArrayList;
