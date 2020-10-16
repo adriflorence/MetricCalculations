@@ -2,7 +2,7 @@ package com.metricsassignment;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,19 +46,19 @@ public class MetricReport {
 	private void calculate() {
 		for (File f : files) {
 			if (f.getName().endsWith(".java")) {
-				FileInputStream stream;
-				try {
-					stream = new FileInputStream(f);
-				} catch (FileNotFoundException e) {
+				// try with resources
+				try (FileInputStream stream = new FileInputStream(f)) {
+					CompilationUnit compilationUnit = StaticJavaParser.parse(stream);
+					List<Double> l = new ArrayList<Double>();
+					for (Metric m : metrics) {
+						l.add(m.calculate(compilationUnit));
+					}
+					report.put(compilationUnit, l);
+
+				} catch (IOException e) {
 					System.out.println(e.getMessage());
 					continue;
 				}
-				CompilationUnit compilationUnit = StaticJavaParser.parse(stream);
-				List<Double> l = new ArrayList<Double>();
-				for (Metric m : metrics) {
-					l.add(m.calculate(compilationUnit));
-				}
-				report.put(compilationUnit, l);
 			}
 		}
 	}
