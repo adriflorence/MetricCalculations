@@ -33,12 +33,12 @@ public class CouplingCountVisitor extends VoidVisitorAdapter<Void>{
 	 * We use this to tell further visits to record.
 	 */
 	private boolean doRecord;
-	
+
 	/**
 	 * We use this to track parameter names
 	 */
 	private Set<String> params;
-	
+
 	public CouplingCountVisitor(List<Set<String>> methodFieldsList) {
 		this.methodFieldsList = methodFieldsList;
 		fieldSet = new HashSet<String>();
@@ -84,10 +84,11 @@ public class CouplingCountVisitor extends VoidVisitorAdapter<Void>{
 	 */
 	@Override
 	public void visit(NameExpr n , Void arg) {
-			if(doRecord && fieldSet.contains(n.getNameAsString()) && !params.contains(n.getNameAsString()))
-				workingFieldReferences.add(n.getNameAsString());
+		if(doRecord && fieldSet.contains(n.getNameAsString()) && !params.contains(n.getNameAsString()))
+			workingFieldReferences.add(n.getNameAsString());
+		super.visit(n, null);
 	}
-	
+
 	/**
 	 * This method will catch usage of fields in expressions like {@code this.fieldname}
 	 * Any type names before {@code this} like {@code World} in {@code World.this.fieldname} are ignored.
@@ -96,5 +97,6 @@ public class CouplingCountVisitor extends VoidVisitorAdapter<Void>{
 	public void visit(FieldAccessExpr n, Void arg) {
 		if(doRecord && n.getScope() instanceof ThisExpr && fieldSet.contains(n.getNameAsString()))
 			workingFieldReferences.add(n.getNameAsString());
+		super.visit(n, null);
 	}
 }
