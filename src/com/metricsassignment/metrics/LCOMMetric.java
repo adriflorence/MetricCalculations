@@ -15,13 +15,18 @@ public class LCOMMetric implements Metric {
 	 * p counts method pairs that don't share fields
 	 * q counts method pairs that share fields
 	 */
-	private int p = 0, q = 0;
+	private int p, q;
 
     @Override
     public double calculate(CompilationUnit compilationUnit) {
+    	p = 0; q = 0;
     	List<Set<String>> fieldsSetList = new ArrayList<Set<String>>();
     	new CouplingCountVisitor(fieldsSetList).visit(compilationUnit, null);
+    	//System.out.println("Full list: " + fieldsSetList);
+    	//System.out.println("Classname: " + compilationUnit.getType(0).getNameAsString());
     	considerAllPairs(fieldsSetList);
+    	int m = p + q;
+    	//System.out.println("Size: " + fieldsSetList.size() + ", Combinations: " + m + ", Shared method number: " + q);
         return p > q ? p - q : 0;
     }
 
@@ -29,18 +34,18 @@ public class LCOMMetric implements Metric {
     	int n = ls.size();
     	if(n == 2) {
     		if(doesShareFields(ls.get(0), ls.get(1)))
-    			p++;
-    		else
     			q++;
+    		else
+    			p++;
     	}
     	else if(n > 2) {
     		Set<String> first = ls.get(0);
     		List<Set<String>> newls = ls.subList(1, n);
     		for( Set<String> s : newls) {
     			if(doesShareFields(first, s))
-    				p++;
-    			else
     				q++;
+    			else
+    				p++;
     		}
     		considerAllPairs(newls);
     	}
@@ -48,6 +53,8 @@ public class LCOMMetric implements Metric {
     }
     
     private boolean doesShareFields(Set<String> a, Set<String> b) {
+    	//System.out.print(a + ", ");
+    	//System.out.println(b);
     	for(String s : a) {
     		if(b.contains(s))
     			return true;

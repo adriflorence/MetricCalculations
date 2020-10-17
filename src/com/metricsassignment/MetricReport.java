@@ -25,6 +25,9 @@ public class MetricReport {
 		this.metrics = metrics;
 	}
 
+	/**
+	 * This method assumes that each class is in its own file.
+	 */
 	public void print() {
 		calculate();
 
