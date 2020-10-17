@@ -28,16 +28,16 @@ public class MetricReport {
 	public void print() {
 		calculate();
 
-		System.out.printf("%-25s", "Class name");
+		System.out.printf("%-24s", "Class name");
 		for (Metric m : metrics)
-			System.out.printf("\t\t%7s", m.getClass().getSimpleName());
-
+			System.out.printf("%24s", m.getClass().getSimpleName());
 		System.out.print("\n");
+
 		for (Map.Entry<CompilationUnit, List<Double>> entry : report.entrySet()) {
 			String className = entry.getKey().getType(0).getNameAsString();
-			System.out.printf("%-25s", className);
+			System.out.printf("%-24s", className);
 			for (Double d : entry.getValue()) {
-				System.out.printf("\t\t%7.2f", d.doubleValue());
+				System.out.printf("\t\t%8.2f", d.doubleValue());
 			}
 			System.out.print("\n");
 		}
