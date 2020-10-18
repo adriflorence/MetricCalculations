@@ -14,14 +14,13 @@ import com.metricsassignment.metrics.Metric;
 
 public class MetricReport {
 
-	private List<File> files;
+	private List<File> javaFiles;
 	private List<Metric> metrics;
 	private Map<CompilationUnit, List<Double>> report;
 
-	public MetricReport(File file, List<Metric> metrics) {
+	public MetricReport(List<File> javaFiles, List<Metric> metrics) {
 		report = new HashMap<>();
-		files = new ArrayList<>();
-		doListing(file);
+		this.javaFiles = javaFiles;
 		this.metrics = metrics;
 	}
 
@@ -47,34 +46,18 @@ public class MetricReport {
 	}
 
 	private void calculate() {
-		for (File f : files) {
-			if (f.getName().endsWith(".java")) {
-				// try with resources
-				try (FileInputStream stream = new FileInputStream(f)) {
-					CompilationUnit compilationUnit = StaticJavaParser.parse(stream);
-					List<Double> l = new ArrayList<>();
-					for (Metric m : metrics) {
-						l.add(m.calculate(compilationUnit));
-					}
-					report.put(compilationUnit, l);
-
-				} catch (IOException e) {
-					System.out.println(e.getMessage());
+		for (File f : javaFiles) {
+			// try with resources
+			try (FileInputStream stream = new FileInputStream(f)) {
+				CompilationUnit compilationUnit = StaticJavaParser.parse(stream);
+				List<Double> metricResults = new ArrayList<>();
+				for (Metric m : metrics) {
+					metricResults.add(m.calculate(compilationUnit));
 				}
-			}
-		}
-	}
+				report.put(compilationUnit, metricResults);
 
-	private void doListing(File dirName) {
-
-		File[] fileList = dirName.listFiles();
-		if (fileList != null) {
-			for (File file : fileList) {
-				if (file.isFile() && file.getName().endsWith(".java")) {
-					files.add(file);
-				} else if (file.isDirectory()) {
-					doListing(file);
-				}
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
 			}
 		}
 	}
