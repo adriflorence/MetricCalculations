@@ -4,13 +4,12 @@ import com.github.javaparser.ast.CompilationUnit;
 
 import visitors.MethodCountVisitor;
 
-// Weighted methods for Class - Number of methods in a class
+// Number of methods in a Class
 public class WMCMetric implements Metric {
 
     @Override
     public double calculate(CompilationUnit compilationUnit) {
         MethodCountVisitor methodCountVisitor = new MethodCountVisitor();
-        Integer count = methodCountVisitor.visit(compilationUnit, null);
-        return count;
+        return methodCountVisitor.visit(compilationUnit, null);
     }
 }

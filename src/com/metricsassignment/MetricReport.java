@@ -40,7 +40,7 @@ public class MetricReport {
 			String className = entry.getKey().getType(0).getNameAsString();
 			System.out.printf("%-24s", className);
 			for (Double d : entry.getValue()) {
-				System.out.printf("\t\t%8.2f", d.doubleValue());
+				System.out.printf("\t\t%8d", d.intValue());
 			}
 			System.out.print("\n");
 		}
@@ -69,12 +69,13 @@ public class MetricReport {
 	private void doListing(File dirName) {
 
 		File[] fileList = dirName.listFiles();
-
-		for (File file : fileList) {
-			if (file.isFile() && file.getName().endsWith(".java")) {
-				files.add(file);
-			} else if (file.isDirectory()) {
-				doListing(file);
+		if (fileList != null) {
+			for (File file : fileList) {
+				if (file.isFile() && file.getName().endsWith(".java")) {
+					files.add(file);
+				} else if (file.isDirectory()) {
+					doListing(file);
+				}
 			}
 		}
 	}
