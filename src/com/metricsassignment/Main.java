@@ -4,11 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.metricsassignment.metrics.WMCMetric;
+import com.metricsassignment.metrics.WMC2Metric;
 import com.metricsassignment.metrics.CBOMetric;
 import com.metricsassignment.metrics.LCOMMetric;
 import com.metricsassignment.metrics.Metric;
 import com.metricsassignment.metrics.RFCMetric;
-import com.metricsassignment.metrics.WMCMetric;
 
 public class Main {
 
@@ -16,10 +17,11 @@ public class Main {
 
 		File file = new File(args[0]);
 
-		List<Metric> metrics = new ArrayList<Metric>();
+		List<Metric> metrics = new ArrayList<>();
 		metrics.add(new WMCMetric());
-		//metrics.add(new RFCMetric());
-		//metrics.add(new CBOMetric());
+		metrics.add(new WMC2Metric());
+		metrics.add(new RFCMetric());
+		metrics.add(new CBOMetric());
 		metrics.add(new LCOMMetric());
 
 		MetricReport mr = new MetricReport(file, metrics);
