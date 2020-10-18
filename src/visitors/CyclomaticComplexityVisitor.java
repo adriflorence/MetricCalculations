@@ -12,8 +12,7 @@ public class CyclomaticComplexityVisitor extends GenericVisitorAdapter<Integer, 
 
     @Override
     public Integer visit(ClassOrInterfaceDeclaration n, Void arg) {
-        return countDecisions(n);
-
+        return n.getMethods().size() + countDecisions(n);
     }
 
     private Integer countDecisions(Node node) {
