@@ -1,7 +1,7 @@
 package com.metricsassignment.metrics;
 
 import com.github.javaparser.ast.CompilationUnit;
-import visitors.MethodAndRemoteMethodCountVisitor;
+import com.metricsassignment.visitors.MethodAndRemoteMethodCountVisitor;
 
 // the number of methods in a class
 // plus the number of remote methods called by methods in the class

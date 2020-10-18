@@ -2,7 +2,7 @@ package com.metricsassignment.metrics;
 
 import com.github.javaparser.ast.CompilationUnit;
 
-import visitors.MethodCountVisitor;
+import com.metricsassignment.visitors.MethodCountVisitor;
 
 // Number of methods in a Class
 public class WMCMetric implements Metric {

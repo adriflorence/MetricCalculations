@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.github.javaparser.ast.CompilationUnit;
 
-import visitors.CouplingCountVisitor;
+import com.metricsassignment.visitors.CouplingCountVisitor;
 
 // Lack of Cohesion of Methods
 public class LCOMMetric implements Metric {
