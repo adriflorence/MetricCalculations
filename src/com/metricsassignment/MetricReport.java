@@ -19,8 +19,8 @@ public class MetricReport {
 	private Map<CompilationUnit, List<Double>> report;
 
 	public MetricReport(File file, List<Metric> metrics) {
-		report = new HashMap<CompilationUnit, List<Double>>();
-		files = new ArrayList<File>();
+		report = new HashMap<>();
+		files = new ArrayList<>();
 		doListing(file);
 		this.metrics = metrics;
 	}
@@ -31,16 +31,16 @@ public class MetricReport {
 	public void print() {
 		calculate();
 
-		System.out.printf("%-24s", "Class name");
+		System.out.printf("%-27s", "Class name");
 		for (Metric m : metrics)
-			System.out.printf("%24s", m.getClass().getSimpleName());
+			System.out.printf("%16s", m.getClass().getSimpleName());
 		System.out.print("\n");
 
 		for (Map.Entry<CompilationUnit, List<Double>> entry : report.entrySet()) {
 			String className = entry.getKey().getType(0).getNameAsString();
 			System.out.printf("%-24s", className);
 			for (Double d : entry.getValue()) {
-				System.out.printf("\t\t%8.2f", d.doubleValue());
+				System.out.printf("\t\t%8d", d.intValue());
 			}
 			System.out.print("\n");
 		}
@@ -52,7 +52,7 @@ public class MetricReport {
 				// try with resources
 				try (FileInputStream stream = new FileInputStream(f)) {
 					CompilationUnit compilationUnit = StaticJavaParser.parse(stream);
-					List<Double> l = new ArrayList<Double>();
+					List<Double> l = new ArrayList<>();
 					for (Metric m : metrics) {
 						l.add(m.calculate(compilationUnit));
 					}
@@ -60,7 +60,6 @@ public class MetricReport {
 
 				} catch (IOException e) {
 					System.out.println(e.getMessage());
-					continue;
 				}
 			}
 		}
@@ -69,12 +68,13 @@ public class MetricReport {
 	private void doListing(File dirName) {
 
 		File[] fileList = dirName.listFiles();
-
-		for (File file : fileList) {
-			if (file.isFile() && file.getName().endsWith(".java")) {
-				files.add(file);
-			} else if (file.isDirectory()) {
-				doListing(file);
+		if (fileList != null) {
+			for (File file : fileList) {
+				if (file.isFile() && file.getName().endsWith(".java")) {
+					files.add(file);
+				} else if (file.isDirectory()) {
+					doListing(file);
+				}
 			}
 		}
 	}
