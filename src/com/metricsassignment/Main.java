@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.metricsassignment.metrics.WMCMetric;
-import com.metricsassignment.metrics.WMC2Metric;
 import com.metricsassignment.metrics.CBOMetric;
 import com.metricsassignment.metrics.LCOMMetric;
 import com.metricsassignment.metrics.Metric;
@@ -17,11 +16,10 @@ public class Main {
 
 		File file = new File(args[0]);
 
-		List<Metric> metrics = new ArrayList<>();
+		List<Metric> metrics = new ArrayList<Metric>();
 		metrics.add(new WMCMetric());
-		metrics.add(new WMC2Metric());
 		metrics.add(new RFCMetric());
-		metrics.add(new CBOMetric());
+		//metrics.add(new CBOMetric());
 		metrics.add(new LCOMMetric());
 
 		MetricReport mr = new MetricReport(file, metrics);
