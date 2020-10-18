@@ -1,14 +1,19 @@
 package com.metricsassignment.metrics;
 
 import com.github.javaparser.ast.CompilationUnit;
+import visitors.MethodAndRemoteMethodCountVisitor;
 
-// the size of the Response set of a class
+// the number of methods in a class
+// plus the number of remote methods called by methods in the class
 public class RFCMetric implements Metric {
 
-    // the number of methods in a class
-    // plus the number of remote methods called by methods in the class
     @Override
     public double calculate(CompilationUnit compilationUnit) {
-        return 0;
+        MethodAndRemoteMethodCountVisitor marm = new MethodAndRemoteMethodCountVisitor();
+        return marm.visit(compilationUnit, null);
+    }
+
+    public String getName(){
+        return "RFC Metric";
     }
 }

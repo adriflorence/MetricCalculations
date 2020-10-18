@@ -1,5 +1,9 @@
 package com.metricsassignment;
 
+import com.metricsassignment.metrics.Metric;
+import com.metricsassignment.metrics.RFCMetric;
+import com.metricsassignment.metrics.WMCMetric;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +22,7 @@ public class Main {
 
 		List<Metric> metrics = new ArrayList<Metric>();
 		metrics.add(new WMCMetric());
-		//metrics.add(new RFCMetric());
+		metrics.add(new RFCMetric());
 		//metrics.add(new CBOMetric());
 		metrics.add(new LCOMMetric());
 
