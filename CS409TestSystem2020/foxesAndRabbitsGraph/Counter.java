@@ -1,3 +1,5 @@
+package CS409TestSystem2020.foxesAndRabbitsGraph;
+
 import java.awt.Color;
 
 /**

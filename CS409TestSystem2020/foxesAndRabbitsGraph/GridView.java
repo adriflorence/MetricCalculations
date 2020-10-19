@@ -1,3 +1,5 @@
+package CS409TestSystem2020.foxesAndRabbitsGraph;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

@@ -1,5 +1,11 @@
+package CS409TestSystem2020.foxesAndRabbitsGraph;
+
+
+import org.w3c.dom.css.Counter;
 import java.awt.Color;
+import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.*;
 
 /**
  * This class collects and provides some statistical data on the state 
