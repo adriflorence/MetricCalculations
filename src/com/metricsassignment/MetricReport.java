@@ -30,9 +30,9 @@ public class MetricReport {
 	public void print() {
 		calculate();
 
-		System.out.printf("%-27s", "Class name");
+		System.out.printf("%-24s", "Class name");
 		for (Metric m : metrics)
-			System.out.printf("%16s", m.getClass().getSimpleName());
+			System.out.printf("%24s", m.getClass().getSimpleName());
 		System.out.print("\n");
 
 		for (Map.Entry<CompilationUnit, List<Double>> entry : report.entrySet()) {
