@@ -15,26 +15,27 @@ This assignment will consider the following 4 metrics of the C&K suite:
 
 Metrics in detail (extract from report)
 ---
-WMC (basic):
+
+**WMC (basic)**:
 To calculate the basic interpretation of WMC (not-so Weighted Methods for Class) a visitor was created that implemented Javaparser’s `GenericVisitorAdapter`. After overriding the visit method that accepts `ClassOrInterfaceDeclaration` as a parameter, the `ClassOrInterfaceDeclaration`’s `getMethods()` method became available; which returns the methods declared within a given class as a list. Because each method weights 1, returning the size of this list gave the basic WMC metric for the given class.
 
-WMC2 (implemented with cyclomatic complexity):
+**WMC2 (implemented with cyclomatic complexity)**:
 To calculate the second adaptation of WMC metric, a simplified interpretation of the cyclomatic complexity was considered. This simplified implementation counts the number of decisions in a method and adds 1.
 
-CBO:
+**CBO**:
 For calculating Coupling Between Objects (CBO) the best approach has proved to be working on a collection (Map) of classes and the related references. The Map was set up so that each key is a class name and each value is a list of those class names that references that class.
-This structure was built while visiting the nodes (each Compilation Unit). The visiting process was the following: 
+This structure was built while visiting the nodes (each `CompilationUnit`). The visiting process was the following: 
 1. Retrieving all the `ClassOrInterfaceTypes` of the class
 2. Filtering down to those classes whose name appears in the original source input directory (With the use of a list of class names and the `IsMemberOfClassNames` predicate)
 This way all the library references were removed, however interface and super class references, as well as the given class's own name was still included.
 3. To resolve this, it was examined whether the class has any interfaces and/or super classes and these were removed from the reference if there were any.
 4. Finally the class name itself was removed as well.
 
-RFC:
-To calculate the size of the Response set of a class the MethodAndRemoteMethodCountVisitor was implemented that counted "all the methods in the class and all the methods that are called by methods in that class. As it is a set each called method is only counted once no matter how many times it is called." 
-To achieve this, first all the MethodDeclarations were counted in a class, then all the MethodCallExpr nodes. The sum of these two provided the RFC (Response For Class) metric of a class.
+**RFC**:
+To calculate the size of the Response set of a class the `MethodAndRemoteMethodCountVisitor` was implemented that counted "all the methods in the class and all the methods that are called by methods in that class. As it is a set each called method is only counted once no matter how many times it is called." 
+To achieve this, first all the `MethodDeclarations` were counted in a class, then all the `MethodCallExpr` nodes. The sum of these two provided the RFC (Response For Class) metric of a class.
 
-LCOM:
+**LCOM**:
 The aim is to find where fields were referred to within a method body. It is done by visting every `NameExpn`, which is what javaparser considers every variable name in an expression, within each MethodBody. There are however, special cases where `NameExpn` was not used, for example in `this.fieldname`. These cases are considered. There is also the special case where a method parameter has the same name as a class field. This is also handled in the solution.
 I later found out that I could have visited every `SimpleName` (within each method) instead, but I believe that then I would need to manually consider the context around each occurrence.
 
