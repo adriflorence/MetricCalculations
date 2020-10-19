@@ -1,4 +1,4 @@
-package visitors;
+package com.metricsassignment.visitors;
 
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.visitor.GenericVisitorAdapter;

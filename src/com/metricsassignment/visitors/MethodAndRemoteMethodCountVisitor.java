@@ -1,7 +1,8 @@
-package visitors;
+package com.metricsassignment.visitors;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.GenericVisitorAdapter;
 
@@ -13,8 +14,11 @@ public class MethodAndRemoteMethodCountVisitor extends GenericVisitorAdapter<Int
     @Override
     public Integer visit(ClassOrInterfaceDeclaration n, Void arg) {
         // returns number of methods and methodCallExprs within those methods
-        return n.getMethods().size() +
-                collectMethodCallExpr(n, new HashSet<>()).size();
+    	Set<String> s = collectMethodCallExpr(n, new HashSet<>());
+    	for(MethodDeclaration m : n.getMethods()) {
+    		s.add(m.getNameAsString());
+    	}
+        return s.size();
     }
 
     // traverses method tree and counts all method calls within that method
