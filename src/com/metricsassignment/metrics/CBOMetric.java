@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.Map.Entry;
 
 // CBO - Coupling between Objects
 public class CBOMetric implements Metric {
@@ -23,17 +24,16 @@ public class CBOMetric implements Metric {
         String classname = compilationUnit.getType(0).getNameAsString();
 
         // all references to other classes within this class
-        Integer referenceToOtherClass = cboMap.get(classname).size();
+        Set<String> references = cboMap.get(classname);
 
         // every class that references this class
-        Integer referencedInOtherClasses = 0;
-        for( Set<String> refs : cboMap.values()){
-            if(refs.contains(classname)){
-                referencedInOtherClasses++;
+        for( Entry<String, Set<String>> refs : cboMap.entrySet()){
+            if(refs.getValue().contains(classname)){
+            	references.add(refs.getKey());
             }
         }
-
-        return referenceToOtherClass + referencedInOtherClasses;
+        references.remove(classname);
+        return references.size();
     }
 
     /**
