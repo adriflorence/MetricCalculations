@@ -19,9 +19,16 @@ public class CouplingBetweenObjectsVisitor extends GenericVisitorAdapter<Set<Str
         // This should cover for interfaces, base classes, library methods
         IsMemberOfClassNames isMemberOfClassNames = new IsMemberOfClassNames(classNames);
 
+        List<ClassOrInterfaceType> interfaces = n.getImplementedTypes(); // returns interfaces or empty list
+        List<ClassOrInterfaceType> superClass = n.getExtendedTypes(); // returns super class or empty list
+
         List<ClassOrInterfaceType> allTypes = n.findAll(ClassOrInterfaceType.class, isMemberOfClassNames);
         for (ClassOrInterfaceType type : allTypes) {
-            references.add(type.getName().asString());
+
+            // this is to exclude interface and base class references
+            if ((!interfaces.contains(type)) && (!superClass.contains(type))) {
+                references.add(type.getName().asString());
+            }
         }
         return references;
     }
