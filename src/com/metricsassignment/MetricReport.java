@@ -29,7 +29,6 @@ public class MetricReport {
 	 */
 	public void print() {
 		calculate();
-
 		System.out.printf("%-24s", "Class name");
 		for (Metric m : metrics)
 			System.out.printf("%24s", m.getClass().getSimpleName());
